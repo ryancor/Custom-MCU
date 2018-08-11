@@ -22,3 +22,23 @@ char *tochar(int i, char *p) {
 
   return p;
 }
+
+void delay(uint32_t time) {
+  for(int i = 0; i < time*100; i++);
+}
+
+int strcmp_s(const char* tmp1, const char* tmp2) {
+  while(*tmp1 && *tmp2) {
+    if(*tmp1 == *tmp2) {
+      tmp1++;
+      tmp2++;
+    } else {
+      if(*tmp1 < *tmp2) {
+        return -1;
+      } else {
+        return 1;
+      }
+    }
+  }
+  return 0; // strings are the same
+}
