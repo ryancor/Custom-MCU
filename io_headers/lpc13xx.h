@@ -1,6 +1,6 @@
 #include <stdint.h>
 
-#define __IO volatile
+#define __IO                volatile
 
 typedef struct {
   __IO uint32_t DATA;
