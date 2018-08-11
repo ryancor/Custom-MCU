@@ -12,5 +12,13 @@ int main(void) {
   print_uart0(data);
   print_uart0("\n");
 
+  while(1) {
+    if(strcmp_s(data, "1") == 0) {
+      print_uart0("LED On\n");
+    } else {
+      print_uart0("LED Off\n");
+    }
+    delay(900000);
+  }
   return 0;
 }
