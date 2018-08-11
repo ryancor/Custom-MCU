@@ -23,3 +23,5 @@ typedef struct {
 #define APB2PERIPH_BASE     (PERIPH_BASE + 0x00010000)
 #define LPC_GPIO1_BASE      (APB2PERIPH_BASE + 0x2000)
 #define LPC_GPIO1           ((LPC_GPIO_TypeDef *) LPC_GPIO1_BASE)
+#define GPIO1_DIR           ((LPC_GPIO_TypeDef *) LPC_GPIO1_BASE + 0x3FCU)
+#define GPIO1_DATA          ((LPC_GPIO_TypeDef *) LPC_GPIO1_BASE + 0x2C4U)
