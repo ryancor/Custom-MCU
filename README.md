@@ -41,8 +41,8 @@
 		[0x00010328]> wa cmp r5, 0x30
 		Written 2 bytes (cmp r5, 0x30) = wx 302d
 		```
-			- In gdb, to edit a register, it would be
-			 	- (gdb) set $r3 = 0x0
+		- In gdb, to edit a register, it would be
+			 - (gdb) set $r3 = 0x0
 		- If you run `pd 25 @ 0x1031c` again, you'll see its compare'd to '0' now.
 		- Hit `dc`
 			- We should see `LED On` in the debug terminal
