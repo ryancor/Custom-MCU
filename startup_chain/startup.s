@@ -1,12 +1,17 @@
-.global _Reset
+.global Reset_Handler
 
-.word	_sdata
+/* Start address for .data initialization */
 .word _sidata
+/* Start address for the .data section */
+.word	_sdata
+/* End address for the .data section */
 .word	_edata
+/* Start address for the .bss section */
 .word	_sbss
+/* End address for the .bss section */
 .word _ebss
 
-_Reset:
+Reset_Handler:
 	LDR 	sp, =stack_top
 	MOVS 	r1, #0
 	B 		LoopCopyDataInit
