@@ -1,4 +1,4 @@
-ENTRY(_Reset)
+ENTRY(Reset_Handler)
 SECTIONS
 {
   . = 0x10000;
