@@ -15,7 +15,8 @@
 		- (gdb) cont
 
 2. Using Objdump && Radare2
-	- ```
+	- First lets find the .data
+	```
 	➜  ./gcc-arm/bin/arm-none-eabi-objdump -s -j .rodata main.elf
 
 	main.elf:     file format elf32-littlearm
@@ -25,7 +26,7 @@
  	 1032c 41544120 3d200000 0a000000 31000000  ATA = ......1...
  	 1033c 4c454420 4f6e0a00 4c454420 4f66660a  LED On..LED Off.
  	 1034c 00
-	````
+	```
 	- r2 -aarm -b16 -d gdb://localhost:1234
 		- pd 25 @ 0x1031c
 			```
@@ -34,7 +35,8 @@
 			- This is the value we have to change in order for the LED to do what we
 			want
 		- `dr r5=0x01` won't work
-		- ```
+		- We have to rewrite the ASM
+		```
 		[0x0001016c]> s 0x00010328
 		[0x00010328]> wa cmp r5, 0x30
 		Written 2 bytes (cmp r5, 0x30) = wx 302d
