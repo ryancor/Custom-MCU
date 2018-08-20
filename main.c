@@ -14,8 +14,6 @@ int main(void) {
   //char* user_input;
 
   while(1) {
-    mcu_layout();
-
     //print_uart0("Enter Command-> ");
     //gets(user_input);
 
@@ -24,9 +22,12 @@ int main(void) {
     HAL_GPIO_WritePin(GPIOC, Pin_SCK_13, GPIO_PIN_SET);
 
     if(HAL_GPIO_ReadPin(GPIOC, Pin_SCK_13) == 0) {
+      mcu_layout();
       print_uart0("SCK/13 is LOW\n");
     } else {
+      mcu_sck_13_high();
       print_uart0("SCK/13 is HIGH\n");
+      data = "1";
     }
 
     if(strcmp_s(data, "1") == 0) {
