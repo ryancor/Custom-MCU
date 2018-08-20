@@ -29,6 +29,9 @@ SECTIONS
   }
 
   . = ALIGN(8);
-  . = . + 0x1000; /* 4kB of stack memory */
-  stack_top = .;
+  heap_low = .; /* for _sbrk */
+  . = . + 0x10000; /* 64kB of heap memory */
+  heap_top = .; /* for _sbrk */
+  . = . + 0x10000; /* 64kB of stack memory */
+  stack_top = .; /* for startup.s */
 }
