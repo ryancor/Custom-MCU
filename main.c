@@ -1,26 +1,33 @@
 #include "io_headers/lpc13xx.h"
 #include "io_headers/lpc13xx_stdio.h"
 #include "io_headers/lpc13xx_mcu_map.h"
+#include "io_headers/lpc13xx_gpio.h"
 #include "stdio.h"
 
 int main(void) {
-  GPIO1_DIR->DIR |= (1 << 2); // set pin to output
-  GPIO1_DATA->DATA |= (1 << 1); // set to high
+  GPIOE->DIR |= GPIO_MODE_OUTPUT_PP; // set pin to output
+  GPIOE->DATA = GPIO_PIN_SET; // set to high
 
   char *data;
-  tochar(GPIO1_DATA->DATA, data);
+  tochar(GPIOE->DATA, data);
 
-  print_uart0("LPC_GPIO1->DATA = ");
-  print_uart0(data);
-  print_uart0("\n");
-
-  char* user_input;
+  //char* user_input;
 
   while(1) {
     mcu_layout();
 
-    print_uart0("Enter Command-> ");
-    gets(user_input);
+    //print_uart0("Enter Command-> ");
+    //gets(user_input);
+
+    HAL_Setup_Pin(GPIOC, Pin_SCK_13);
+    GPIOC->MODER |= GPIO_MODE_OUTPUT_PP;
+    HAL_GPIO_WritePin(GPIOC, Pin_SCK_13, GPIO_PIN_SET);
+
+    if(HAL_GPIO_ReadPin(GPIOC, Pin_SCK_13) == 0) {
+      print_uart0("SCK/13 is LOW\n");
+    } else {
+      print_uart0("SCK/13 is HIGH\n");
+    }
 
     if(strcmp_s(data, "1") == 0) {
       print_uart0("LED On\n");
