@@ -42,7 +42,56 @@
 		Written 2 bytes (cmp r5, 0x30) = wx 302d
 		```
 		- In gdb, to edit a register, it would be
-			 - (gdb) set $r3 = 0x0
+			 - (gdb) set $r0 = 0x1 @
+			 ```
+			 0x00010834 <+132>:	mov	r3, r0
+			 0x00010838 <+136>:	cmp	r3, #0
+			 0x0001083c <+140>:	bne	0x10850 <main+160>
+			 ```
 		- If you run `pd 25 @ 0x1031c` again, you'll see its compare'd to '0' now.
 		- Hit `dc`
-			- We should see `LED On` in the debug terminal
+			```
+			(gdb) disas
+			0x00010850 <+160>:	  bl	   0x10438 <mcu_sck_13_high>
+   		0x00010854 <+164>:	  ldr	   r0, [pc, #76]	; 0x108a8 <main+248>
+	 		=> 0x00010858 <+168>:	bl	   0x10084 <print_uart0>
+			(gdb) i r
+			r0             0x11098	69784
+			(gdb) x/20xg $r0
+			0x11098:	0x692033312f4b4353	0x000a484749482073
+			0x110a8:	0x2044454c00000031	0x2044454c000a6e4f
+			0x110b8:	0x000000000a66664f	0x0000000000000000
+			0x110c8:	0x0000000000000000	0x0000000000000000
+			0x110d8:	0x0000000000000000	0x0000000000000000
+			0x110e8:	0x0000000000000000	0x0000000000000000
+			0x110f8:	0x0000000000000000	0x0000000000000000
+			0x11108:	0x0000000000000000	0x0000000000000000
+			0x11118:	0x0000000000000000	0x0000000000000000
+			0x11128:	0x0000000000000000	0x0000000000000000
+			(gdb) x/x $r0
+			0x11098:	0x692033312f4b4353
+			(gdb) x/s $r0
+			0x11098:	"SCK/13 is HIGH\n
+			```
+			- We should see MCU Layout of HIGH && `LED On` in the debug terminal
+			```
+																		+-----+
+			+----[PWR]--------------------| USB |--+
+			|                             +-----+  |
+			|          GND/RST2 [ ][ ]             |
+			|        MOSI2/SCK2 [ ][ ]   A5/SCL[ ] |
+			|                              AREF[ ] |
+			|                               GND[ ] |
+			| [ ]N/C                     SCK/13[H] |
+			| [ ]v.ref                  MISO/12[ ] |
+			| [ ]RST                    MOSI/11[ ] |
+			|               ....                   |
+			|                                      |
+			| [ ]A4/SDA    RST SCK MISO    TX>1[ ] |
+			| [ ]A5/SCL    [ ] [ ] [ ]     RX<0[ ] |
+			|              [ ] [ ] [ ]             |
+			|               |   |   |             /
+			|    LPC13     GND MOSI 5V   ---------
+			\                         /          
+			-------------------------
+			```
